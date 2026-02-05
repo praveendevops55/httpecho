@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: http-echo
-        image: httpecho.azurecr.io/http-echo:4a1c9622ce4e85ee84b76b218b52c68ac1067c8c
+        image: httpecho.azurecr.io/http-echo:4cf9fbc9fd6dab00c2170f56cac8ed648a878991
         args:
           - "-text=Hello from GitOps"
         ports:
