@@ -20,11 +20,11 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: ACR Login via Azure CLI
-      run: az acr login --name myacr
+      run: az acr login --name httpecho
 
     - name: Build and Push Image
       run: |
-        IMAGE=myacr.azurecr.io/http-echo:${{ github.sha }}
+        IMAGE=httpecho.azurecr.io/http-echo:${{ github.sha }}
         docker build -t $IMAGE -f app/Dockerfile .
         docker push $IMAGE
 
