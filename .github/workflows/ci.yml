@@ -30,7 +30,7 @@ jobs:
 
     - name: Update Manifest (GitOps)
       run: |
-        sed -i "s|image:.*|image: myacr.azurecr.io/http-echo:${{ github.sha }}|" k8s/deployment.yaml
+        sed -i "s|image:.*|image: httpecho.azurecr.io/http-echo:${{ github.sha }}|" k8s/deployment.yaml
         git config user.name "praveen mishra"
         git config user.email "mishrapraveenm94@gmail.com"
         git add k8s/deployment.yaml
