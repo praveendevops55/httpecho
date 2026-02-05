@@ -5,7 +5,7 @@ WORKDIR /app
 COPY app/go.mod app/go.sum ./
 RUN go mod download
 
-COPY app/ .
+COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o http-echo
 
 # -------- Runtime stage --------

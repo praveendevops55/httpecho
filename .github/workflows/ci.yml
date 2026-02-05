@@ -1,8 +1,7 @@
 name: CI-CD-GitOps
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch
 
 permissions:
   contents: write
@@ -25,7 +24,7 @@ jobs:
     - name: Build and Push Image
       run: |
         IMAGE=myacr.azurecr.io/http-echo:${{ github.sha }}
-        docker build -t $IMAGE .
+        docker build -t $IMAGE -f app/Dockerfile .
         docker push $IMAGE
 
     - name: Update Manifest (GitOps)
