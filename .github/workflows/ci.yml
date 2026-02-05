@@ -1,0 +1,38 @@
+name: CI-CD-GitOps
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Login to ACR
+      uses: azure/docker-login@v1
+      with:
+        login-server: myacr.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and Push Image
+      run: |
+        IMAGE=myacr.azurecr.io/http-echo:${{ github.sha }}
+        docker build -t $IMAGE .
+        docker push $IMAGE
+
+    - name: Update Manifest (GitOps)
+      run: |
+        sed -i "s|image:.*|image: myacr.azurecr.io/http-echo:${{ github.sha }}|" k8s/deployment.yaml
+        git config user.name "praveen mishra"
+        git config user.email "mishrapraveenm94@gmail.com"
+        git add k8s/deployment.yaml
+        git commit -m "Update image to ${{ github.sha }}"
+        git push
